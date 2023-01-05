@@ -1,38 +1,37 @@
 const { Router } = require('express')
 const router = new Router()
 
-const Contenedor = require('../contenedor.js');
-const productos = new Contenedor('productos.txt')
+const { productos } = require('../contenedor')
 
 const adm = true
 
 
-router.get('/', async (req, response) => {
+router.get('/', async (req, res) => {
 
     const allProducts = await productos.getAll()
 
-    response.render("lista", {
+    res.render("lista", {
         productos: allProducts,
         hayProductos: allProducts.length
     });
 })
 
 
-router.get('/:id', async (req, response) => {
+router.get('/:id', async (req, res) => {
 
     const { id } = req.params
     const productById = await productos.getById(parseInt(id))
 
     if (productById) {
-        response.json(productById)
+        res.json(productById)
 
     } else {
-        response.status(404).send({ error: 'Product not found' })
+        res.status(404).send({ error: 'Product not found' })
     }
 })
 
 
-router.post('/', async (req, response) => {
+router.post('/', async (req, res) => {
 
     if (adm) {
         const { image, title, price, description } = req.body
@@ -41,18 +40,18 @@ router.post('/', async (req, response) => {
             await productos.save(req.body)
             // const productById = await productos.getById(id)
             const allProd = await productos.getAll()
-            response.render("lista", {
+            res.render("lista", {
                 productos: allProd,
                 hayProductos: allProd.length
             });
 
         } else {
-            response.send('Invalido, todos los campos son obligatorios')
+            res.send('Invalido, todos los campos son obligatorios')
 
         }
 
     } else {
-        response.send('Error: 401 Ruta: "api/productos" Método: "POST" No Autorizada ')
+        res.send('Error: 401 Ruta: "api/productos" Método: "POST" No Autorizada ')
     }
 
 })
@@ -85,17 +84,17 @@ router.put('/:id', async (req, res) => {
 
 
 router.delete('/:id', async (req, res) => {
-    
+
     if (adm) {
         const { id } = req.params
         const deleteProdById = await productos.getById(parseInt(id))
 
         if (deleteProdById) {
             await productos.deleteById(parseInt(id))
-            response.send({ deleted: deleteProdById })
+            res.send({ deleted: deleteProdById })
 
         } else {
-            response.status(404).send({ error: 'Product not found' })
+            res.status(404).send({ error: 'Product not found' })
 
         }
 

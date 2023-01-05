@@ -1,6 +1,6 @@
 
 const fs = require('fs')
-
+const { v4: uuidv4 } = require('uuid');
 
 class Contenedor {
 
@@ -12,10 +12,7 @@ class Contenedor {
     async save(product) {
         const productos = await this.getAll()
         try {
-            let idGen
-            productos.length === 0
-                ? idGen = 1
-                : idGen = productos[productos.length - 1].id + 1
+            let idGen = uuidv4()
 
             const prodNuevo = { id: idGen, ...product }
             productos.push(prodNuevo)
@@ -82,4 +79,9 @@ class Contenedor {
 }
 
 
-module.exports = Contenedor
+
+const productos = new Contenedor('./data/productos.txt')
+const carrito = new Contenedor('./data/carrito.txt')
+
+
+module.exports = { productos, carrito }
