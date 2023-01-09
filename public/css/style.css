@@ -16,10 +16,6 @@ body {
     padding: 20px;
 }
 
-.jumbotron {
-    min-height: 100vh;
-}
-
 .container {
     height: auto;
     width: 75vw;
@@ -93,4 +89,10 @@ h2 {
 .active:enabled {
     background-color: #9f68e0;
     cursor: pointer;
+}
+
+.chat {
+    margin: 10px 0px 0px 0px;
+    padding: 20px;
+    background-color: aliceblue;
 }

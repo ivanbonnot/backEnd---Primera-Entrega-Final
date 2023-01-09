@@ -35,6 +35,18 @@ class Contenedor {
         }
     }
 
+    
+  async addCart( cartId ) { //metodo unicamente para usar con carts
+    const carts = await this.getAll()
+    try{
+        const newCart = { timestamp:new Date().toLocaleString(), id: cartId }       
+        carts.push(newCart)        
+        await this.saveFile( carts )
+        return
+    } catch(err) {
+      console.log(`Error: ${err}`)
+    }
+  }
 
     async getById(id) {
         const productos = await this.getAll()

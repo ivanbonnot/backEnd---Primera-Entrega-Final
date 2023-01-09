@@ -12,16 +12,13 @@
         background-color: #ddd;
     }
 
-    .jumbotron {
-        min-height: 100vh;
-    }
 </style>
 
 <div class="jumbotron">
     <h1>Vista de Productos</h1>
     <br>
 
-    {{#if hayProductos}}
+    {{#if productos}}
     <div class="table-responsive">
         <table class="table table-dark">
             <tr>
@@ -33,7 +30,7 @@
             <tr>
                 <td>{{this.title}}</td>
                 <td>${{this.price}}</td>
-                <td><img width="50" src={{this.image}} alt="not found"></td>
+                <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
             </tr>
             {{/each}}
         </table>
@@ -41,6 +38,6 @@
     {{else}}
     <h3 class="alert alert-warning">No se encontraron productos</h3>
     {{/if}}
-    <br>
-    <a href="/" type="button" class="btn btn-primary">Cargar un nuevo producto</a>
+    
+    
     

@@ -1,109 +1,72 @@
-const { Router } = require('express')
-const router = new Router()
+const express = require('express')
+const fs = require('fs')
+const { v4: uuidv4 } = require('uuid')
 
-const { carrito } = require('../contenedor')
+const { products, carts } = require('../class/contenedor')
+const Cart = require('../class/cartClass')
 
-const adm = true
+const { Router } = express 
+const carritoRouter = Router() 
 
 
-router.get('/', async (req, res) => {
+/* ------- router carrito --------*/ 
 
-    const allProducts = await productos.getAll()
 
-    res.render("lista", {
-        productos: allProducts,
-        hayProductos: allProducts.length
-    });
+//------------POST Carrito
+carritoRouter.post('/carrito', async (req, res) => {
+  const idNewCart = uuidv4()
+  const cart = new Cart(`./data/${idNewCart}.txt`)
+  cart.saveFile({ id: idNewCart, timestamp: new Date().toLocaleString(), products: [] })
+  carts.addCart(idNewCart)
+  res.send(idNewCart)
 })
 
 
-router.get('/:id', async (req, res) => {
-
-    const { id } = req.params
-    const productById = await productos.getById(parseInt(id))
-
-    if (productById) {
-        res.json(productById)
-
-    } else {
-        res.status(404).send({ error: 'Product not found' })
-    }
+//----------DELETE carrito
+carritoRouter.delete('/carrito/:id', async (req, res) => {
+  const id = req.params.id
+  fs.unlink(`./data/${id}.txt`, (error) => {
+    error ? console.log('No se ha podido borrar') : console.log('Borrado exitoso')
+  })
+  await carts.deleteById(id)
+  res.send('Borrado exitoso')
 })
 
 
-router.post('/', async (req, res) => {
-
-    if (adm) {
-        const { image, title, price, description } = req.body
-
-        if (image && title && price && description) {
-            await productos.save(req.body)
-            // const productById = await productos.getById(id)
-            const allProd = await productos.getAll()
-            res.render("lista", {
-                productos: allProd,
-                hayProductos: allProd.length
-            });
-
-        } else {
-            res.send('Invalido, todos los campos son obligatorios')
-
-        }
-
-    } else {
-        res.send('Error: 401 Ruta: "api/productos" Método: "POST" No Autorizada ')
-    }
-
+//------------GET productos del carrito
+carritoRouter.get('/carrito/:id/productos', async (req, res) => {
+  const id = req.params.id
+  const cart = new Cart(`./data/${id}.txt`)
+  const products = await cart.getAll()
+  res.send(products)
 })
 
 
-router.put('/:id', async (req, res) => {
-
-    if (adm) {
-        const id = Number(req.params.id)
-        const { image, title, price, description } = req.body
-
-        if (await productos.getById(id) && (image && title && price && description)) {
-            let allProducts = await productos.getAll()
-            allProducts[id - 1] = { "id": id, ...req.body }
-            productos.saveFile(allProducts)
-            res.send(req.body)
-
-        } else {
-            res.status(404).send({ error: 'id invalid / missing fields' })
-
-        }
-
-    } else {
-        res.send('Error: 401 Ruta: "api/productos/:Id" Método: "PUT" No Autorizada ')
-    }
-
+//---------POST producto en carrito
+carritoRouter.post('/carrito/:id/productos/:id_prod', async (req, res) => {
+  const cartId = req.params.id
+  const itemId = req.params.id_prod
+  const item = await products.getById(itemId)
+  await fs.readFile(`./data/${cartId}.txt`, 'utf8', (err, data) => {
+    const carrito = JSON.parse(data)
+    carrito.products.push(item)
+    fs.promises.writeFile(
+      `./data/${cartId}.txt`, JSON.stringify( carrito, null, 2 )
+    )
+  })
+  
+  res.send('ok')
 })
 
 
-
-
-router.delete('/:id', async (req, res) => {
-
-    if (adm) {
-        const { id } = req.params
-        const deleteProdById = await productos.getById(parseInt(id))
-
-        if (deleteProdById) {
-            await productos.deleteById(parseInt(id))
-            res.send({ deleted: deleteProdById })
-
-        } else {
-            res.status(404).send({ error: 'Product not found' })
-
-        }
-
-    } else {
-        res.send('Error: 401 Ruta: "api/productos/:Id" Método: "DELETE" No Autorizada ')
-    }
-
+//---------DEL producto en carrito
+carritoRouter.delete('/carrito/:id/productos/:id_prod', async (req, res) => {
+  const cartId = req.params.id
+  const itemId = req.params.id_prod
+  const cart = new Cart(`./data/${cartId}.txt`)
+  await cart.deleteById( itemId )
+  res.send('Producto borrado exitosamente')
 })
 
 
-module.exports = router;
-
+module.exports = carritoRouter
