@@ -28,9 +28,9 @@ productosRouter.get('/:id', async (req, res) => {
 
 productosRouter.post('/', async (req, res) => {
     if (adm) {
-        const { image, title, price, description } = req.body
+        const { foto, title, price, description } = req.body
 
-        if (image && title && price && description) {
+        if (foto && title && price && description) {
             await productos.save(req.body)
             res.redirect('/')
         } else {
@@ -40,7 +40,6 @@ productosRouter.post('/', async (req, res) => {
     } else {
         res.send('Error: 403 Ruta: "api/productos" Método: "POST" No Autorizada ')
     }
-
 })
 
 
@@ -80,7 +79,6 @@ productosRouter.delete('/:id', async (req, res) => {
 
         } else {
             res.status(404).send({ error: 'Product not found' })
-
         }
 
     } else {

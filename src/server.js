@@ -11,7 +11,7 @@ const app = express();
 const httpServer = new HTTPServer(app)
 const io = new IOServer(httpServer)
 
-const { productos } = require('./class/contenedor')
+const { productos, carrito } = require('./class/contenedor')
 
 
 //Settings
@@ -35,14 +35,21 @@ io.on('connection', async socket => {
 
     // carga inicial de productos
     socket.emit('productos', await productos.getAll());
+    socket.emit('carritos', await carrito.getAll());
 
     // actualizacion de productos
     socket.on('update', async producto => {
         products.save(producto)
         io.sockets.emit('productos', await productos.getAll());
     })
+
+    socket.on('newCart', async () => {
+        socket.emit('carritos', await carrito.getAll())
+      })
 });
 
+
+  
 //HBS
 app.engine(
     "hbs",

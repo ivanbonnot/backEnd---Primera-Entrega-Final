@@ -23,7 +23,10 @@
             <div class="border">
                 <p>Nombre: <input type="text" name="title"></p>
                 <p>Precio: <input type="text" name="price"></p>
-                <p>Url image: <input type="text" name="thumbnail"></p>
+                <p>Url image: <input type="text" name="foto"></p>
+                <p>Descripción: <input type="text" name="descripcion"></p>
+                <p>Código: <input type="text" name="codigo"></p>
+                <p>Stock: <input type="text" name="stock"></p>
             </div>
             <div class="border">
                 <p>Descripción: <input type="text" name="description"></p>
@@ -33,9 +36,76 @@
 
         <div id="productos"></div>
 
+
+        <div>
+            <form action="/api/carrito" method="GET">
+                <button id="carrito" class="btn">Carrito</button>
+            </form>
+        </div>
+
+        <div id="" class="row d-flex justify-content-center">
+            <div class="col">
+                <button id="newCartBtn" type="" class="btn btn-primary">Nuevo carrito</button>
+            </div>
+        </div>
+
+        <div id="" class="row d-flex justify-content-center">
+            <div class="col">
+                <input type="text" class="form-control" id="idProdNew" aria-describedby="pHelp3">
+                <div id="pHelp3" class="form-text">ID producto a agregar</div>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="idProdCartNew" aria-describedby="pHelp4">
+                <div id="pHelp4" class="form-text">ID del carrito</div>
+            </div>
+            <div class="col">
+                <button id="newItemCartBtn" type="" class="btn btn-primary">Agregar producto</button>
+            </div>
+        </div>
+
+
+        <div id="" class="row d-flex justify-content-center">
+            <div class="col">
+                <input type="text" class="form-control" id="idCartList" aria-describedby="pHelp4">
+                <div id="pHelp4" class="form-text">ID del carrito</div>
+            </div>
+            <div class="col">
+                <button id="listItemCartBtn" type="" class="btn btn-primary">Ver productos del carrito</button>
+            </div>
+        </div>
+        <div id="itemCartList" class="row"></div>
+
+
+        <div id="" class="row d-flex justify-content-center ">
+            <div class="col">
+                <input type="text" class="form-control" id="idCartDel" aria-describedby="pHelp">
+                <div id="pHelp" class="form-text">ID de carrito a borrar</div>
+            </div>
+            <div class="col">
+                <button id="deleteCartBtn" type="" class="btn btn-primary">Borrar carrito</button>
+            </div>
+        </div>
+
+        <br>
+
+        <div id="" class="row d-flex justify-content-center ">
+            <div class="col">
+                <input type="text" class="form-control" id="idProdDel" aria-describedby="pHelp1">
+                <div id="pHelp1" class="form-text">ID producto a borrar</div>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="idProdCartDel" aria-describedby="pHelp2">
+                <div id="pHelp2" class="form-text">ID del carrito</div>
+            </div>
+            <div class="col">
+                <button id="deleteItemCartBtn" type="" class="btn btn-primary">Borrar producto</button>
+            </div>
+        </div>
+
     </div>
 
-    <script  src="./js/index.js"></script>
+
+    <script src="./js/index.js"></script>
 </body>
 
 </html>

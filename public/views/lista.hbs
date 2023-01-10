@@ -25,12 +25,14 @@
                 <th>Nombre</th>
                 <th>Precio</th>
                 <th>Foto</th>
+                <th>Stock</th>
             </tr>
             {{#each productos}}
             <tr>
                 <td>{{this.title}}</td>
                 <td>${{this.price}}</td>
-                <td><img width="50" src={{this.thumbnail}} alt="not found"></td>
+                <td><img width="50" src={{this.foto}} alt="not found"></td>
+                <td>{{this.stock}}</td>
             </tr>
             {{/each}}
         </table>
