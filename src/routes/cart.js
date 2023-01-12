@@ -49,7 +49,7 @@ carritoRouter.post('/:id/productos/:id_prod', async (req, res) => {
   const item = await productos.getById(itemId)
   await fs.readFile(`./data/${cartId}.txt`, 'utf8', (err, data) => {
     const carrito = JSON.parse(data)
-    carrito.products.push(item)
+    carrito.productos.push(item)
     fs.promises.writeFile(
       `./data/${cartId}.txt`, JSON.stringify( carrito, null, 2 )
     )
