@@ -1,15 +1,1 @@
-{
-  "id": "c9f758d3-b667-4345-9b0a-59bc27163f1e",
-  "timestamp": "1/12/2023, 5:13:57 PM",
-  "productos": [
-    {
-      "id": "1",
-      "foto": "https://d3ugyf2ht6aenh.cloudfront.net/stores/916/671/products/39492a20-cb07-453b-b773-cf33f3ad6a221-234c84a1749adadbfe16049644061194-1024-1024.jpeg",
-      "title": "Impresora 3D Creality Ender 3 Pro",
-      "price": "220",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, veritatis?",
-      "codigo": "1",
-      "stock": "10"
-    }
-  ]
-}
+[]

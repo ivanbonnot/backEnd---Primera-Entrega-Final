@@ -76,7 +76,9 @@ document.getElementById("listItemCartBtn").addEventListener("click", ev => {
   })
     .then((response) => response.json())
     .then((data) => {
-      document.querySelector('#itemCartList').innerHTML = templateListaProductos( data )
+      makeHtmlTable(data).then(html => {
+        document.getElementById('itemCartList').innerHTML = html
+    })
       idCartList.value = ''
     })
 })
